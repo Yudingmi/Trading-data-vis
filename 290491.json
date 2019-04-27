@@ -1,0 +1,462 @@
+{
+  "success": true,
+  "code": "",
+  "message": "",
+  "data": {
+    "country": "中国",
+    "realName": null,
+    "otcOrders": [],
+    "mobilePhone": "13686180800",
+    "memberLevel": 0,
+    "memberDeposits": [
+      {
+        "createTime": "2019-02-14 15:59:13",
+        "amount": 10.00000000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-14 16:00:27",
+        "amount": 999.99900000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-14 16:09:41",
+        "amount": 999.99990000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-15 13:57:57",
+        "amount": 100.00000000,
+        "unit": "SLU"
+      },
+      {
+        "createTime": "2019-02-15 14:02:47",
+        "amount": 1002.00000000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-18 10:48:22",
+        "amount": 1000.00000000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-18 10:50:23",
+        "amount": 1000.00000000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-18 10:51:58",
+        "amount": 10000000.00000000,
+        "unit": "CNYT"
+      },
+      {
+        "createTime": "2019-02-18 10:57:25",
+        "amount": 10000000.00000000,
+        "unit": "CNYT"
+      }
+    ],
+    "memberLoginHistorys": [
+      {
+        "loginTime": "2019-02-12 10:26:09"
+      },
+      {
+        "loginTime": "2019-02-12 11:28:14"
+      },
+      {
+        "loginTime": "2019-02-12 11:53:18"
+      },
+      {
+        "loginTime": "2019-02-13 14:37:37"
+      },
+      {
+        "loginTime": "2019-02-14 14:52:25"
+      },
+      {
+        "loginTime": "2019-02-15 13:56:33"
+      },
+      {
+        "loginTime": "2019-02-19 14:19:25"
+      },
+      {
+        "loginTime": "2019-02-20 10:09:02"
+      },
+      {
+        "loginTime": "2019-02-20 10:45:02"
+      },
+      {
+        "loginTime": "2019-02-20 14:15:20"
+      },
+      {
+        "loginTime": "2019-02-21 11:37:22"
+      },
+      {
+        "loginTime": "2019-02-21 14:11:28"
+      },
+      {
+        "loginTime": "2019-02-21 15:29:17"
+      },
+      {
+        "loginTime": "2019-02-21 15:36:43"
+      },
+      {
+        "loginTime": "2019-02-21 15:38:05"
+      },
+      {
+        "loginTime": "2019-02-21 15:40:12"
+      },
+      {
+        "loginTime": "2019-02-21 15:40:42"
+      },
+      {
+        "loginTime": "2019-02-21 15:41:04"
+      },
+      {
+        "loginTime": "2019-02-21 15:42:16"
+      },
+      {
+        "loginTime": "2019-02-21 16:20:33"
+      },
+      {
+        "loginTime": "2019-02-21 16:21:09"
+      },
+      {
+        "loginTime": "2019-02-21 16:29:16"
+      },
+      {
+        "loginTime": "2019-02-21 17:33:26"
+      },
+      {
+        "loginTime": "2019-02-22 09:18:53"
+      },
+      {
+        "loginTime": "2019-02-22 10:51:51"
+      },
+      {
+        "loginTime": "2019-02-22 14:32:09"
+      },
+      {
+        "loginTime": "2019-02-26 16:23:45"
+      },
+      {
+        "loginTime": "2019-02-26 16:29:56"
+      },
+      {
+        "loginTime": "2019-02-28 18:30:46"
+      },
+      {
+        "loginTime": "2019-03-01 14:14:20"
+      },
+      {
+        "loginTime": "2019-03-04 18:07:38"
+      },
+      {
+        "loginTime": "2019-03-04 18:25:36"
+      },
+      {
+        "loginTime": "2019-03-07 16:26:24"
+      },
+      {
+        "loginTime": "2019-03-07 17:31:01"
+      },
+      {
+        "loginTime": "2019-03-08 16:00:48"
+      },
+      {
+        "loginTime": "2019-03-13 09:32:25"
+      }
+    ],
+    "exchangeOrders": [
+      {
+        "time": "2019-03-07 16:56:20",
+        "completedTime": null,
+        "tradedAmount": 0E-8,
+        "direction": "0",
+        "symbol": "ETH/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-07 16:58:22",
+        "completedTime": "2019-03-07 16:58:20",
+        "tradedAmount": 0.01000000,
+        "direction": "1",
+        "symbol": "ETH/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-01 14:17:05",
+        "completedTime": "2019-03-01 15:56:45",
+        "tradedAmount": 1.00000000,
+        "direction": "0",
+        "symbol": "ETH/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 15:17:30",
+        "completedTime": "2019-02-21 15:15:38",
+        "tradedAmount": 100.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 15:18:04",
+        "completedTime": "2019-02-21 15:16:11",
+        "tradedAmount": 900.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 15:18:56",
+        "completedTime": "2019-02-21 15:17:05",
+        "tradedAmount": 620.00000000,
+        "direction": "0",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 15:19:09",
+        "completedTime": "2019-02-21 15:17:16",
+        "tradedAmount": 4500.00000000,
+        "direction": "0",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 15:25:54",
+        "completedTime": "2019-02-21 15:24:01",
+        "tradedAmount": 100.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 15:26:10",
+        "completedTime": "2019-02-22 15:35:45",
+        "tradedAmount": 100.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:10:35",
+        "completedTime": "2019-02-22 15:35:45",
+        "tradedAmount": 10.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:10:41",
+        "completedTime": "2019-02-21 16:12:09",
+        "tradedAmount": 10.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:10:45",
+        "completedTime": "2019-02-22 15:16:41",
+        "tradedAmount": 10.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:10:53",
+        "completedTime": "2019-02-22 15:26:41",
+        "tradedAmount": 2.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:11:01",
+        "completedTime": "2019-02-22 15:35:45",
+        "tradedAmount": 1.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:11:08",
+        "completedTime": "2019-02-22 15:35:45",
+        "tradedAmount": 10.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 16:11:16",
+        "completedTime": "2019-02-22 15:35:45",
+        "tradedAmount": 20.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-07 16:27:32",
+        "completedTime": "2019-03-07 16:27:31",
+        "tradedAmount": 5.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-07 16:46:53",
+        "completedTime": "2019-03-07 16:46:51",
+        "tradedAmount": 5.00000000,
+        "direction": "1",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-07 16:27:12",
+        "completedTime": null,
+        "tradedAmount": 5.00000000,
+        "direction": "0",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-07 16:30:47",
+        "completedTime": null,
+        "tradedAmount": 0E-8,
+        "direction": "0",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-03-07 16:37:20",
+        "completedTime": null,
+        "tradedAmount": 5.00000000,
+        "direction": "0",
+        "symbol": "SLU/CNYT",
+        "baseSymbol": "CNYT"
+      },
+      {
+        "time": "2019-02-21 14:18:05",
+        "completedTime": "2019-02-21 14:20:47",
+        "tradedAmount": 100.00000000,
+        "direction": "0",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:18:26",
+        "completedTime": "2019-02-21 14:18:04",
+        "tradedAmount": 100.00000000,
+        "direction": "1",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:18:43",
+        "completedTime": "2019-02-21 14:16:50",
+        "tradedAmount": 100.00000000,
+        "direction": "0",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:19:56",
+        "completedTime": "2019-02-21 14:20:46",
+        "tradedAmount": 500.00000000,
+        "direction": "0",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:22:38",
+        "completedTime": "2019-02-21 14:24:38",
+        "tradedAmount": 500.00000000,
+        "direction": "1",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:26:53",
+        "completedTime": "2019-02-21 14:25:01",
+        "tradedAmount": 40.00000000,
+        "direction": "1",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:27:06",
+        "completedTime": "2019-02-21 14:25:16",
+        "tradedAmount": 50.00000000,
+        "direction": "1",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:27:19",
+        "completedTime": "2019-02-21 14:25:28",
+        "tradedAmount": 70.00000000,
+        "direction": "1",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:23:00",
+        "completedTime": null,
+        "tradedAmount": 0E-8,
+        "direction": "0",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      },
+      {
+        "time": "2019-02-21 14:26:30",
+        "completedTime": null,
+        "tradedAmount": 10.00000000,
+        "direction": "0",
+        "symbol": "SLU/USDT",
+        "baseSymbol": "USDT"
+      }
+    ],
+    "email": null,
+    "memberWalletHistorys": [
+      {
+        "opTime": "2019-02-12 16:59:13",
+        "amount": 11781929.308562509259,
+        "unit": "CNYT"
+      },
+      {
+        "opTime": "2019-02-13 14:43:53",
+        "amount": 500000.000000000000,
+        "unit": "ETH"
+      },
+      {
+        "opTime": "2019-02-12 16:59:18",
+        "amount": 10296.278191648136,
+        "unit": "SLU"
+      },
+      {
+        "opTime": "2019-02-13 14:43:53",
+        "amount": 23369.679374188356,
+        "unit": "USDT"
+      },
+      {
+        "opTime": "2019-03-01 09:26:21",
+        "amount": 20099374.582303525000,
+        "unit": "CNYT"
+      },
+      {
+        "opTime": "2019-03-01 15:56:48",
+        "amount": 0.996500000000,
+        "unit": "ETH"
+      },
+      {
+        "opTime": "2019-03-07 16:27:41",
+        "amount": 4861.929283603333,
+        "unit": "SLU"
+      },
+      {
+        "opTime": "2019-03-01 14:17:08",
+        "amount": 9930.093830150000,
+        "unit": "USDT"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chart</title>
+
+    <script src="./js/d3.js"></script>
+    <script src="./js/d3-tip.js"></script>
+    <script src="./js/data2.js"></script>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        /* place-items: center center; */
+        /* place-content: strech strech; */
+      }
+
+      aside p{
+      	color: black;
+      	font-size:23px;
+        background-color: rgb(230,230,230);
+        padding-top: 8px; 
+        padding-left:30px;
+        height: 36px;
+        line-height: 26px;
+        /*border-radius: 3.8px*/;
+        border: 1px solid gray;
+        margin-top: 5;
+        margin-bottom: 0;
+      }
+      .svg-wrapper p {
+        color: white;
+        background-color: hsl(209, 56%, 56%);
+        /* text-align: center; */
+        height: 30px;
+        line-height: 26px;
+        /*border-radius: 3.8px*/;
+        border: 1px solid gray;
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size:24px;
+        padding-top: 9px; 
+        padding-left:30px;
+      }
+      .svg-wrapper.notshow {
+        display: none;
+      }
+
+      aside {
+        height: 173vh;
+      }
+      aside ul{
+      	margin-top: 2px;
+        /*border: 0.5px solid gray*/;
+        background-color:hsl(209, 56%, 56%);
+        color: white;
+        list-style-image: url("user.svg");
+        line-height:25px;
+      }
+      svg {
+        margin-top: 0;
+        border: 1px solid gray;
+      }
+
+      aside ul#id-list {
+        height: 80%;
+        overflow-y: scroll;
+        padding: 15px 45px;      
+      }
+    
+      ul#id-list li.current {
+        color: hsl(209, 56%, 56%);
+        background-color: white;
+        margin:6px;
+        border-radius: 5px
+      }
+
+      .tip.e {
+        background-color: hsla(209, 56%, 56%, 0.38);
+        border: 1px solid gray;
+        border-radius: 3.8px;
+      }
+
+      g#exchangeOrderChart .upper.dots.CNYT rect.dot {
+        fill: transparent;
+        fill: steelblue;
+        fill-opacity: 0.38;
+        stroke: steelblue;
+        stroke-width: 2px;
+      }
+      g#exchangeOrderChart .lower.dots.CNYT rect.dot {
+        fill: transparent;
+        fill: #E86850;//淡雅red
+        fill-opacity: 0.38;
+        stroke: #E86850;
+        stroke-width: 2px;
+      }
+      g#exchangeOrderChart .upper.dots.USDT rect.dot {
+        fill: transparent;
+        fill: steelblue;
+        fill-opacity: 0.38;
+        stroke: steelblue;
+        stroke-width: 2px;
+      }
+      g#exchangeOrderChart .lower.dots.USDT rect.dot {
+        fill: transparent;
+        fill: #E86850;
+        fill-opacity: 0.38;
+        stroke: #E86850;
+        stroke-width: 2px;
+      }
+
+      g#otcOrderChart rect.dot {
+        fill: transparent;
+        fill: steelblue;
+        fill-opacity: 0.38;
+        stroke: steelblue;
+        stroke-width: 2px;
+      }
+
+      g#memberWalletHistoryChart > path {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2px;
+      }
+
+      g#memberLoginHistoryChart .v.gridlines path {
+        stroke: none;
+      }
+      g#memberLoginHistoryChart .v.gridlines line {
+        stroke: lightgray;
+        stroke-dasharray: 6;
+      }
+
+      g#timelineChart .legend text {
+        font-size: 12px;
+        /* text-anchor: middle; */
+      }
+      g#timelineChart .sticks.CNYT line.stick {
+        stroke: black;
+        stroke-width: 3.8px;
+        stroke-opacity: 0.6;
+      }
+      g#timelineChart .legend.CNYT rect {
+        fill: black;
+        fill-opacity: 0.6;
+      }
+      g#timelineChart .sticks.USDT line.stick {
+        stroke: #E86850;
+        stroke-width: 3.8px;
+        stroke-opacity: 0.9;
+      }
+      g#timelineChart .legend.USDT rect {
+        fill: #E86850;
+        fill-opacity: 0.9;
+      }
+
+      svg#polar circle.separator {
+        fill: none;
+        stroke: black;
+        stroke-width: 2px;
+      }
+      svg#polar circle.grid {
+        fill: none;
+        stroke: lightgray;
+        stroke-width: 1px;
+        stroke-opacity: 0.5;
+      }
+      svg#polar line.r.axis {
+        stroke: black;
+      }
+      svg#polar text.grid-label {
+        /* transform-origin: center; */
+        text-anchor: middle;
+        dominant-baseline: central;
+        /* alignment-baseline: middle; */
+        font-size: 12px;
+      }
+      svg#polar .legend text {
+        font-size: 12px;
+        /* text-anchor: middle; */
+      }
+
+      g#memberWalletHistoryPolar > path {
+        fill: none;
+        stroke: gray;
+        stroke-width: 2px;
+      }
+      g#memberWalletHistoryPolar circle.dot {
+        stroke-width: 2px;
+      }
+
+      g#otcOrderPolar path.sec {
+        fill-opacity: 0.72;
+      }
+
+      g#labelPolar path.sec {
+        stroke: white;
+        stroke-width: 2px;
+      }
+      g#labelPolar text.label {
+        fill: white;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+
+      svg#loginHistory path.link {
+        fill: none;
+        stroke: black;
+        stroke: darkgray;
+      }
+      svg#loginHistory text.label {
+        text-anchor: middle;
+        dominant-baseline: text-after-edge;
+      }
+
+      svg#heatmap .legend text {
+        font-size: 12px;
+      }
+      svg#heatmap .legend text.symbol {
+        fill: white;
+      }
+
+      svg .title {
+        font-size: 12px;
+      }
+      svg .title-bg {
+        stroke: lightgray;
+        stroke-width: 12px;
+      }
+      svg#cartesian .separator {
+        stroke: lightgray;
+        stroke-dasharray: 6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <aside>
+      <p>User List</p>
+      <ul id="id-list" style="cursor:pointer;">
+      </ul>
+    </aside>
+    <main>
+      <div class="buttons" style="position:relative;margin-left:5px;margin-top: 20px;">
+        <button id="page-1" style="height: 45px;width:90px">Page 1</button>
+        <button id="page-2" style="height: 45px;width:90px">Page 2</button>
+      </div>
+
+      <div class="svg-wrapper">
+        <p>Cartesian view</p>
+        <svg id="cartesian" width="1380" height="940">
+          <g id="lineCharts" transform="translate(0, 0)">
+            <g class="title">
+              <line class="title-bg" x1="0" y1="6" x2="1380" y2="6"/>
+              <text dy="10">Exchange Order</text>
+            </g>
+            <g id="exchangeOrderChart" transform="translate(0, 0)"></g>
+
+            <g class="title" transform="translate(0, 190)">
+              <line class="title-bg" x1="0" y1="6" x2="1380" y2="6"/>
+              <text dy="10">OTC Order</text>
+            </g>
+            <g id="otcOrderChart" transform="translate(0, 190)"></g>
+
+            <g class="title" transform="translate(0, 380)">
+              <line class="title-bg" x1="0" y1="6" x2="1380" y2="6"/>
+              <text dy="10">Wallet History</text>
+            </g>
+            <g id="memberWalletHistoryChart" transform="translate(0, 380)"></g>
+
+            <line class="separator" x1="0" y1="580" x2="1380" y2="580"/>
+          </g>
+          <g id="timelineChart" transform="translate(0, 570)"></g>
+        </svg>
+      </div>
+      <div class="svg-wrapper notshow">
+        <p>Polar chart</p>
+        <svg id="polar" width="1380" height="940">
+          <g id="memberWalletHistoryPolar"></g>
+          <g id="otcOrderPolar"></g>
+          <g id="memberLoginHistoryPolar"></g>
+          <g id="exchangeOrderPolar"></g>
+          <g id="labelPolar"></g>
+         </svg>
+      </div>
+      <div class="svg-wrapper notshow">
+        <p>Tree chart</p>
+        <svg id="loginHistory" width="1380" height="3220">
+        </svg>
+      </div>
+      <div class="svg-wrapper">
+        <p>Heatmap</p>
+        <svg id="heatmap" width="1380" height="230">
+        </svg>
+      </div>
+    </main>
+
+    <script>
+      const svgWidth = 1380;
+      const svgHeight = 940;
+      const topWidth = 1380;
+      const topHeight = 650;
+
+      let xchgChart = d3.select("#exchangeOrderChart");
+      let otcChart = d3.select("#otcOrderChart");
+      let walletChart = d3.select("#memberWalletHistoryChart");
+      let timelineChart = d3.select("#timelineChart");
+
+      function plotClear() {
+        let xchgChart = document.getElementById("exchangeOrderChart");
+        while (xchgChart.hasChildNodes()) {
+          xchgChart.removeChild(xchgChart.lastChild);
+        }
+        let otcChart = document.getElementById("otcOrderChart");
+        while (otcChart.hasChildNodes()) {
+          otcChart.removeChild(otcChart.lastChild);
+        }
+        let walletChart = document.getElementById("memberWalletHistoryChart");
+        while (walletChart.hasChildNodes()) {
+          walletChart.removeChild(walletChart.lastChild);
+        }
+        let loginTreeChart = document.getElementById("loginHistory");
+        while (loginTreeChart.hasChildNodes()) {
+          loginTreeChart.removeChild(loginTreeChart.lastChild);
+        }
+      }
+
+      function plotClearTimeline() {
+        let timelineChart = document.getElementById("timelineChart");
+        while (timelineChart.hasChildNodes()) {
+          timelineChart.removeChild(timelineChart.lastChild);
+        }
+      }
+
+      function plotClearPolar() {
+        let walletPolar = document.getElementById("memberWalletHistoryPolar");
+        while (walletPolar.hasChildNodes()) {
+          walletPolar.removeChild(walletPolar.lastChild);
+        }
+        let otcPolar = document.getElementById("otcOrderPolar");
+        while (otcPolar.hasChildNodes()) {
+          otcPolar.removeChild(otcPolar.lastChild);
+        }
+        let loginPolar = document.getElementById("memberLoginHistoryPolar");
+        while (loginPolar.hasChildNodes()) {
+          loginPolar.removeChild(loginPolar.lastChild);
+        }
+        let xchgPolar = document.getElementById("exchangeOrderPolar");
+        while (xchgPolar.hasChildNodes()) {
+          xchgPolar.removeChild(xchgPolar.lastChild);
+        }
+        let labelPolar = document.getElementById("labelPolar");
+        while (labelPolar.hasChildNodes()) {
+          labelPolar.removeChild(labelPolar.lastChild);
+        }
+      }
+
+      function plotClearHeatmap() {
+        let heatmap = document.getElementById("heatmap");
+        while (heatmap.hasChildNodes()) {
+          heatmap.removeChild(heatmap.lastChild);
+        }
+      }
+
+      let brushWidth = 80;
+      let [minTime, maxTime] = [null, null];
+      let [minX, maxX] = [null, null];
+      let fmtymd = d3.timeFormat("%Y-%m-%d");
+      let fmtymdhm = d3.timeFormat("%Y-%m-%d %H:%M");
+      let fmtymdhms = d3.timeFormat("%Y-%m-%d %H:%M:%S");
+
+      let polarPlot = null;
+      let topPlot = null;
+      let bottomPlot = null;
+
+      function plotTimeline(xchgArr) {
+        const width = 1380;
+        const height = 370;
+        const chart = { top: 16, right: 68, bottom: 18, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+
+        let arr1 = xchgArr.filter(d => d.baseSymbol == "CNYT");
+        let arr2 = xchgArr.filter(d => d.baseSymbol == "USDT");
+        let xScale = d3.scaleTime().domain([minTime, maxTime]).range([0, chart.width]);
+
+        if (arr1.length > 0) {
+          let [minAmount, maxAmount] = d3.extent(arr1, d => d.amount);
+          console.log([minAmount, maxAmount]);
+          let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([chart.height, 0]);
+
+          timelineChart.append("g")
+                  .attr("class", "sticks CNYT")
+                  .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                  .selectAll(".stick")
+                  .data(arr1)
+                  .enter()
+                    .append("line")
+                    .attr("class", "stick")
+                    .attr("x1", d => xScale(d.time))
+                    .attr("x2", d => {
+                      let time = d.canceledTime;
+                      if (time == null) {
+                        time = d.completedTime;
+                      }
+                      if (time == null) {
+                        time = maxX;
+                      }
+                      return xScale(time);
+                    })
+                    .attr("y1", d => yScale(d.amount))
+                    .attr("y2", d => yScale(d.amount));
+          timelineChart.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                  .call(d3.axisLeft(yScale));
+        }
+
+        if (arr2.length > 0) {
+          let [minAmount, maxAmount] = d3.extent(arr2, d => d.amount);
+          console.log([minAmount, maxAmount]);
+          let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([chart.height, 0]);
+
+          timelineChart.append("g")
+                  .attr("class", "sticks USDT")
+                  .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                  .selectAll(".stick")
+                  .data(arr2)
+                  .enter()
+                    .append("line")
+                    .attr("class", "stick")
+                    .attr("x1", d => xScale(d.time))
+                    .attr("x2", d => {
+                      let time = d.canceledTime;
+                      if (time == null) {
+                        time = d.completedTime;
+                      }
+                      if (time == null) {
+                        time = maxX;
+                      }
+                      return xScale(time);
+                    })
+                    .attr("y1", d => yScale(d.amount))
+                    .attr("y2", d => yScale(d.amount));
+          timelineChart.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", `translate(${width - chart.right}, ${chart.top})`)
+                  .call(d3.axisRight(yScale));
+        }
+
+        timelineChart.append("g")
+                .attr("class", "x axis")
+                .attr("transform", `translate(${chart.left}, ${height - chart.bottom})`)
+                .call(d3.axisBottom(xScale).tickFormat(fmtymd));
+
+        let tlBrush = d3.brushX().extent([[0, 0], [chart.width, chart.height]]).on("end", brushed);
+        timelineChart.select("g.sticks").call(tlBrush).call(tlBrush.move, [0, brushWidth]);
+
+        function brushed() {
+          let [xl, xr] = d3.event.selection.map(xScale.invert);
+          console.log([xl, xr]);
+          minX = xl;
+          maxX = xr;
+
+          plotClear();
+          topPlot();
+        }
+
+        function plotTimelineLegend() {
+          const offset2 = 25;
+          const size = 12;
+          let legend1 = timelineChart.append("g").attr("class", "legend CNYT").attr("transform", `translate(${width - chart.right + offset2}, 72)`);
+          let legend2 = timelineChart.append("g").attr("class", "legend USDT").attr("transform", `translate(${width - chart.right + offset2}, 120)`);
+
+          legend1.append("rect").attr("x", 0).attr("y", 0).attr("width", size).attr("height", size);
+          legend1.append("text").attr("x", -6).attr("y", 25).text("CNYT");
+
+          legend2.append("rect").attr("x", 0).attr("y", 0).attr("width", size).attr("height", size);
+          legend2.append("text").attr("x", -6).attr("y", 25).text("USDT");
+        }
+        plotTimelineLegend();
+      }
+
+      function plot1(xchgArr) {
+        const width = 1380;
+        const height = 190;
+        const chart = { top: 16, right: 68, bottom: 2, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+        const middle = chart.height / 2 + chart.top;
+
+        xchgChart.append("line").attr("class", "separator").attr("x1", chart.left).attr("y1", middle).attr("x2", width - chart.right).attr("y2", middle);
+
+        let arr1upper = xchgArr.filter(d => d.baseSymbol == "CNYT" && d.direction == 0);
+        let arr1lower = xchgArr.filter(d => d.baseSymbol == "CNYT" && d.direction == 1);
+        let arr2upper = xchgArr.filter(d => d.baseSymbol == "USDT" && d.direction == 0);
+        let arr2lower = xchgArr.filter(d => d.baseSymbol == "USDT" && d.direction == 1);
+        let xScale = d3.scaleTime().domain([minX, maxX]).range([0, chart.width]).clamp(true);
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([10, 10])
+                .html(d => `<span>amount: ${d.amount}</span><br>
+                            <span>base symbol: ${d.baseSymbol}</span><br>
+                            <span>created at: ${fmtymdhms(d.time)}</span><br>
+                            <span>completed at: ${fmtymdhms(d.completedTime)}</span>`);
+
+        if (arr1upper.length > 0) {
+          let [minAmount, maxAmount] = d3.extent(arr1upper, d => d.amount);
+          console.log([minAmount, maxAmount]);
+          let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([chart.height / 2, 0]);
+
+          xchgChart.append("g")
+                  .attr("class", "upper dots CNYT")
+                  .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                  .call(pointTip)
+                  .selectAll(".dot")
+                  .data(arr1upper)
+                  .enter()
+                    .append("rect")
+                    .attr("class", "dot")
+                    .attr("x", d => xScale(d.time))
+                    .attr("y", d => yScale(minAmount) - yScale(d.amount))
+                    .attr("width", d => xScale(d.completedTime) - xScale(d.time))
+                    .attr("height", d => yScale(d.amount))
+                    .on("mouseover", pointTip.show)
+                    .on("mouseout", pointTip.hide);
+
+          xchgChart.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                  .call(d3.axisLeft(yScale));
+        }
+
+        if (arr1lower.length > 0) {
+          let [minAmount, maxAmount] = d3.extent(arr1lower, d => d.amount);
+          console.log([minAmount, maxAmount]);
+          let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([0, chart.height / 2]);
+
+          xchgChart.append("g")
+                  .attr("class", "lower dots CNYT")
+                  .attr("transform", `translate(${chart.left}, ${middle})`)
+                  .call(pointTip)
+                  .selectAll(".dot")
+                  .data(arr1lower)
+                  .enter()
+                    .append("rect")
+                    .attr("class", "dot")
+                    .attr("x", d => xScale(d.time))
+                    .attr("y", d => yScale(minAmount))
+                    .attr("width", d => xScale(d.completedTime) - xScale(d.time))
+                    .attr("height", d => yScale(d.amount) - yScale(minAmount))
+                    .on("mouseover", pointTip.show)
+                    .on("mouseout", pointTip.hide);
+
+          xchgChart.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", `translate(${chart.left}, ${middle})`)
+                  .call(d3.axisLeft(yScale));
+        }
+
+        if (arr2upper.length > 0) {
+          let [minAmount, maxAmount] = d3.extent(arr2upper, d => d.amount);
+          console.log([minAmount, maxAmount]);
+          let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([chart.height / 2, 0]);
+
+          xchgChart.append("g")
+                  .attr("class", "upper dots USDT")
+                  .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                  .call(pointTip)
+                  .selectAll(".dot")
+                  .data(arr2upper)
+                  .enter()
+                    .append("rect")
+                    .attr("class", "dot")
+                    .attr("x", d => xScale(d.time))
+                    .attr("y", d => yScale(minAmount) - yScale(d.amount))
+                    .attr("width", d => xScale(d.completedTime) - xScale(d.time))
+                    .attr("height", d => yScale(d.amount))
+                    .on("mouseover", pointTip.show)
+                    .on("mouseout", pointTip.hide);
+
+          xchgChart.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", `translate(${width - chart.right}, ${chart.top})`)
+                  .call(d3.axisRight(yScale));
+        }
+
+        if (arr2lower.length > 0) {
+          let [minAmount, maxAmount] = d3.extent(arr2lower, d => d.amount);
+          console.log([minAmount, maxAmount]);
+          let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([0, chart.height / 2]);
+
+          xchgChart.append("g")
+                  .attr("class", "lower dots USDT")
+                  .attr("transform", `translate(${chart.left}, ${middle})`)
+                  .call(pointTip)
+                  .selectAll(".dot")
+                  .data(arr2lower)
+                  .enter()
+                    .append("rect")
+                    .attr("class", "dot")
+                    .attr("x", d => xScale(d.time))
+                    .attr("y", d => yScale(minAmount))
+                    .attr("width", d => xScale(d.completedTime) - xScale(d.time))
+                    .attr("height", d => yScale(d.amount) - yScale(minAmount))
+                    .on("mouseover", pointTip.show)
+                    .on("mouseout", pointTip.hide);
+
+          xchgChart.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", `translate(${width - chart.right}, ${middle})`)
+                  .call(d3.axisRight(yScale));
+        }
+      }
+
+      function plot2(otcArr) {
+        const width = 1380;
+        const height = 190;
+        const chart = { top: 16, right: 68, bottom: 2, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+
+        let [minMoney, maxMoney] = d3.extent(otcArr, d => d.money);
+        console.log([minMoney, maxMoney]);
+        let xScale = d3.scaleTime().domain([minX, maxX]).range([0, chart.width]).clamp(true);
+        let yScale = d3.scaleLinear().domain([minMoney, maxMoney]).range([chart.height, 0]);
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([10, 10])
+                .html(d => `<span>money: ${d.money}</span><br>
+                	          <span>base symbol: ${d.unit}</span><br>
+                            <span>created at: ${fmtymdhms(d.createTime)}</span>`);
+
+        otcChart.append("g")
+                .attr("class", "dots")
+                .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                .call(pointTip)
+                .selectAll(".dot")
+                .data(otcArr)
+                .enter()
+                  .append("rect")
+                  .attr("class", "dot")
+                  .attr("x", d => xScale(d.createTime))
+                  .attr("y", d => yScale(minMoney) - yScale(d.money))
+                  .attr("width", d => xScale(d.releaseTime) - xScale(d.createTime))
+                  .attr("height", d => yScale(d.money))
+                  .on("mouseover", pointTip.show)
+                  .on("mouseout", pointTip.hide);
+        otcChart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                .call(d3.axisLeft(yScale));
+      }
+
+      function plot3(walletArr) {
+        const width = 1380;
+        const height = 190;
+        const chart = { top: 16, right: 68, bottom: 2, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+
+        let [minAmount, maxAmount] = d3.extent(walletArr, d => d.amount);
+        console.log([minAmount, maxAmount]);
+        let xScale = d3.scaleTime().domain([minX, maxX]).range([0, chart.width]).clamp(true);
+        let yScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([chart.height, 0]);
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([10, 10])
+                .html(d => `<span>amount: ${d.amount}</span><br>
+                            <span>created at: ${fmtymdhms(d.opTime)}</span><br>
+                            <span>unit: ${d.unit}</span>`);
+
+        let walletMap = new Map();
+        for (let w of walletArr) {
+          let arr = walletMap.get(w.unit);
+          if (arr) {
+            arr.push(w);
+            walletMap.set(w.unit, arr);
+          } else {
+            walletMap.set(w.unit, [w]);
+          }
+        }
+
+        let pathFun = d3.line()
+                .x(d => xScale(d.opTime))
+                .y(d => yScale(d.amount));
+    walletMap.forEach((walletArr, _) => {
+      if (walletArr.length > 0) {
+        walletChart.append("path")
+                .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                .datum(walletArr)
+                .attr("d", pathFun);
+      }
+        walletChart.append("g")
+                .attr("class", "dots")
+                .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                .call(pointTip)
+                .selectAll(".dot")
+                .data(walletArr)
+                .enter()
+                  .append("circle")
+                  .attr("class", "dot")
+                  .attr("fill", d => cScale(d.unit))
+                  .attr("stroke", d => cScale(d.unit))
+                  .attr("cx", d => xScale(d.opTime))
+                  .attr("cy", d => yScale(d.amount))
+                  .attr("r", 3)
+                  .on("mouseover", pointTip.show)
+                  .on("mouseout", pointTip.hide);
+    });
+        walletChart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                .call(d3.axisLeft(yScale));
+      }
+
+
+      const loginTreeChart = d3.select("#loginHistory");
+
+      function plotLoginTree(loginArr) {
+        const width = 1380;
+        const height = 3220;
+        const chart = { top: 18, right: 58, bottom: 6, left: 58 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+
+        let ipArr = [];
+        let idArr = [];
+        for (let login of loginArr) {
+          ipArr.push(login.loginIp);
+          idArr = idArr.concat(login.ipToMemberIds);
+        }
+        ipArr = [...new Set(ipArr).values()].sort((ip1, ip2) => ip1 - ip2);
+        idArr = [...new Set(idArr).values()].sort((id1, id2) => id1 - id2);
+
+        let xScale = d3.scalePoint().domain(["ip", "id", "m", "d", "h"]).range([0, chart.width]);
+        let ipScale = d3.scalePoint().domain(ipArr).range([0, chart.height]);
+        let idScale = d3.scalePoint().domain(idArr).range([0, chart.height]);
+        let mScale = d3.scalePoint().domain([1, 2, 3]).range([0, chart.height]);
+        let dScale = d3.scalePoint().domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]).range([0, chart.height]);
+        let hScale = d3.scaleLinear().domain([0, 24]).range([0, chart.height]);
+
+        let round2 = v => Math.round(v * 100) / 100;
+        let lines = new Set();
+        for (let login of loginArr) {
+            let nodeip = { x: "ip", y: round2(ipScale(login.loginIp)) };
+
+            let nodem  = { x: "m",  y: round2(mScale(login.loginTime.getMonth() + 1)) };
+            let noded  = { x: "d",  y: round2(dScale(login.loginTime.getDate())) };
+            let nodeh  = { x: "h",  y: round2(hScale(login.loginTime.getHours() /*+ login.loginTime.getMinutes() / 60*/)) };
+
+          for (let id of login.ipToMemberIds.values()) {
+            let nodeid = { x: "id", y: round2(idScale(id)) };
+            lines.add(JSON.stringify([nodeip, nodeid, nodem, noded, nodeh]));
+          }
+        }
+        lines = [...lines.values()].map(l => JSON.parse(l));
+
+        let pathFun = d3.line().x(d => xScale(d.x)).y(d => d.y).curve(d3.curveMonotoneX);
+        loginTreeChart.append("g")
+                .attr("class", "links")
+                .attr("transform", `translate(${chart.left}, ${chart.top})`)
+                .selectAll(".link")
+                .data(lines)
+                .enter()
+                  .append("path")
+                  .attr("class", "link")
+                  .attr("d", pathFun);
+
+        loginTreeChart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${chart.left + xScale("ip")}, ${chart.top})`)
+                .call(d3.axisRight(ipScale));
+        loginTreeChart.append("text")
+                .attr("class", "y axis label")
+                .attr("transform", `translate(${chart.left + xScale("ip")}, ${chart.top})`)
+                .text("ip");
+
+        loginTreeChart.append("g")
+                .attr("class", "y axis id")
+                .attr("transform", `translate(${chart.left + xScale("id")}, ${chart.top})`)
+                .call(d3.axisRight(idScale));
+        loginTreeChart.append("text")
+                .attr("class", "y axis label")
+                .attr("transform", `translate(${chart.left + xScale("id")}, ${chart.top})`)
+                .text("id");
+
+        loginTreeChart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${chart.left + xScale("m")}, ${chart.top})`)
+                .call(d3.axisRight(mScale));
+        loginTreeChart.append("text")
+                .attr("class", "y axis label")
+                .attr("transform", `translate(${chart.left + xScale("m")}, ${chart.top})`)
+                .text("month");
+
+        loginTreeChart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${chart.left + xScale("d")}, ${chart.top})`)
+                .call(d3.axisRight(dScale));
+        loginTreeChart.append("text")
+                .attr("class", "y axis label")
+                .attr("transform", `translate(${chart.left + xScale("d")}, ${chart.top})`)
+                .text("day");
+
+        loginTreeChart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", `translate(${chart.left + xScale("h")}, ${chart.top})`)
+                .call(d3.axisRight(hScale).ticks(25));
+        loginTreeChart.append("text")
+                .attr("class", "y axis label")
+                .attr("transform", `translate(${chart.left + xScale("h")}, ${chart.top})`)
+                .text("hour");
+      }
+
+
+      function memberList(memberArr) {
+        const ul = document.getElementById("id-list");
+        for (let m of memberArr) {
+          let li = document.createElement("li");
+          li.dataset.memberId = m.id;
+          li.innerHTML = `<span>id: ${m.id}</span><br>
+                          <span>name: ${m.name}</span><br>
+                          <span>country: ${m.country}</span><br>
+                          <span>phone: ${m.phone}</span><br>
+                          <span>email: ${m.email}</span><br>
+                          <span>member level: ${m.memberLevel}</span>`;
+          ul.appendChild(li);
+        }
+      }
+
+      loadData().then(({ memberArr, xchgMap, otcMap, walletMap, loginMap }) => {
+        console.log(memberArr);
+        memberList(memberArr);
+
+        console.log(xchgMap);
+        console.log(xchgMap.keys());
+        console.log(otcMap.keys());
+        console.log(walletMap.keys());
+        console.log(loginMap.keys());
+
+        // let memberId = 74363;
+        // let memberId = 71639;
+        let memberId = 280596;
+
+        function init(id) {
+          let xchgArr = xchgMap.get(id);
+          let [min1, max1] = [null, null];
+          if (xchgArr) {
+            xchgArr.sort((v1, v2) => v1.time.getTime() - v2.time.getTime());
+            let [mina, maxa] = d3.extent(xchgArr, d => d.time.getTime());
+            let [minb, maxb] = d3.extent(xchgArr, d => d.completedTime == null ? null : d.completedTime.getTime());
+            min1 = Math.min(mina || Infinity, minb || Infinity);
+            max1 = Math.max(maxa || -Infinity, maxb || -Infinity);
+          }
+          console.log(`extent 1 [${min1}, ${max1}]`);
+
+          let otcArr = otcMap.get(id);
+          let [min2, max2] = [null, null];
+          if (otcArr) {
+            otcArr.sort((v1, v2) => v1.createTime.getTime() - v2.createTime.getTime());
+            let [mina, maxa] = d3.extent(otcArr, d => d.createTime.getTime());
+            min2 = mina;
+            max2 = maxa;
+          }
+          console.log(`extent 2 [${min2}, ${max2}]`);
+
+          let walletArr = walletMap.get(id);
+          console.log(walletArr);
+          let [min3, max3] = [null, null];
+          if (walletArr) {
+            walletArr.sort((v1, v2) => v1.opTime.getTime() - v2.opTime.getTime());
+            let [mina, maxa] = d3.extent(walletArr, d => d.opTime.getTime());
+            min3 = mina;
+            max3 = maxa;
+          }
+          console.log(`extent 4 [${min3}, ${max3}]`);
+
+          let loginArr = loginMap.get(id);
+          let [min4, max4] = [null, null];
+          if (loginArr) {
+            loginArr.sort((v1, v2) => v1.loginTime.getTime() - v2.loginTime.getTime());
+            let [mina, maxa] = d3.extent(loginArr, d => d.loginTime.getTime());
+            min4 = mina;
+            max4 = maxa;
+          }
+          console.log(`extent 5 [${min4}, ${max4}]`);
+
+          minTime = new Date(Math.min(min1 || Infinity, min2 || Infinity, min3 || Infinity, min4 || Infinity));
+          maxTime = new Date(Math.max(max1 || -Infinity, max2 || -Infinity, max3 || -Infinity, max4 || -Infinity));
+          console.log([minTime, maxTime]);
+          minX = minTime;
+          maxX = maxTime;
+
+          polarPlot = function() {
+            plotClearPolar();
+
+            if (walletArr) {
+              plotPolar1(walletArr);
+            }
+            if (otcArr) {
+              plotPolar2(otcArr);
+            }
+            if (loginArr) {
+              plotPolar3(loginArr);
+            }
+            if (xchgArr) {
+              plotPolar4(xchgArr);
+            }
+            plotPolar5();
+          }
+
+          bottomPlot = function() {
+            console.log("plotTimeline");
+            if (xchgArr) {
+              plotTimeline(xchgArr);
+            }
+          }
+
+          topPlot = function() {
+            console.log("plot1");
+            if (xchgArr) {
+              let xchgArr2 = xchgArr.filter(d => {
+                if (d.time.getTime() >= minX.getTime() && d.time.getTime() <= maxX.getTime()) {
+                  return true;
+                }
+                if (d.completedTime != null) {
+                  if (d.completedTime.getTime() >= minX.getTime() && d.completedTime.getTime() <= maxX.getTime()) {
+                    return true;
+                  }
+                }
+                return false;
+              });
+              if (xchgArr2.length > 0) {
+                plot1(xchgArr2);
+              }
+            }
+
+            console.log("plot2");
+            if (otcArr) {
+              let otcArr2 = otcArr.filter(d => {
+                if (d.createTime.getTime() >= minX.getTime() && d.createTime.getTime() <= maxX.getTime()) {
+                  return true;
+                }
+                return false;
+              });
+              if (otcArr2.length > 0) {
+                plot2(otcArr2);
+              }
+            }
+
+            console.log("plot3");
+            if (walletArr) {
+              let walletArr2 = walletArr.filter(d => {
+                if (d.opTime.getTime() >= minX.getTime() && d.opTime.getTime() <= maxX.getTime()) {
+                  return true;
+                }
+                return false;
+              });
+              if (walletArr2.length > 0) {
+                plot3(walletArr2);
+              }
+            }
+
+            console.log("plot login");
+            if (loginArr) {
+              plotLoginTree(loginArr);
+            }
+          }
+        }
+
+        plotClear();
+        plotClearTimeline();
+        plotClearHeatmap();
+        init(memberId);
+        polarPlot();
+        bottomPlot();
+        topPlot();
+        plotHeatmap(memberId);
+
+        const ul = document.getElementById("id-list");
+        let li = ul.querySelector(`li[data-member-id='${memberId}']`);
+        if (li) {
+          li.classList.add("current");
+        }
+
+        for (let li of ul.childNodes) {
+          li.addEventListener("click", e => {
+            let memberId = +e.currentTarget.dataset.memberId;
+            console.log(memberId);
+            ul.querySelector("li.current").classList.toggle("current");
+            e.currentTarget.classList.toggle("current");
+
+            plotClear();
+            plotClearTimeline();
+            plotClearHeatmap();
+            init(memberId);
+            polarPlot();
+            bottomPlot();
+            topPlot();
+            plotHeatmap(memberId);
+          });
+        }
+      });
+
+      const btnPage1 = document.getElementById("page-1");
+      const btnPage2 = document.getElementById("page-2");
+      btnPage1.addEventListener("click", evt => {
+        let w1 = document.querySelector(`.svg-wrapper:nth-child(2)`);
+        let w2 = document.querySelector(`.svg-wrapper:nth-child(3)`);
+        let w3 = document.querySelector(`.svg-wrapper:nth-child(4)`);
+        let w4 = document.querySelector(`.svg-wrapper:nth-child(5)`);
+
+        w1.classList.remove("notshow");
+        w4.classList.remove("notshow");
+
+        w2.classList.add("notshow");
+        w3.classList.add("notshow");
+      });
+      btnPage2.addEventListener("click", evt => {
+        let w1 = document.querySelector(`.svg-wrapper:nth-child(2)`);
+        let w2 = document.querySelector(`.svg-wrapper:nth-child(3)`);
+        let w3 = document.querySelector(`.svg-wrapper:nth-child(4)`);
+        let w4 = document.querySelector(`.svg-wrapper:nth-child(5)`);
+
+        w1.classList.add("notshow");
+        w4.classList.add("notshow");
+
+        w2.classList.remove("notshow");
+        w3.classList.remove("notshow");
+      });
+
+
+      let walletPolar = d3.select("#memberWalletHistoryPolar");
+      let otcPolar = d3.select("#otcOrderPolar");
+      let loginPolar = d3.select("#memberLoginHistoryPolar");
+      let xchgPolar = d3.select("#exchangeOrderPolar");
+      let labelPolar = d3.select("#labelPolar");
+
+      const TAU = 2 * Math.PI;
+      const UNITS = ['BT', 'BTC', 'CNYT', 'DARING', 'DCC', 'EOS', 'ETH', 'SLU', 'SOG', 'TEBK', 'USDT', 'WLT', 'XRP'];
+      const cScale = d3.scaleOrdinal().domain(UNITS).range(UNITS.map( (v, i) => d3.interpolateCubehelixDefault(i / (UNITS.length - 1)) ) );
+      const month1Start = new Date("2019-01-01 00:00:00");
+      const month2Start = new Date("2019-02-01 00:00:00");
+      const month3Start = new Date("2019-03-01 00:00:00");
+      const month1End = new Date("2019-01-31 23:59:59");
+      const month2End = new Date("2019-02-28 23:59:59");
+      const month3End = new Date("2019-03-31 23:59:59");
+
+      function plotPolar1(walletArr) {
+        const width = 1380;
+        const height = 940;
+        const chart = { top: 16, right: 68, bottom: 18, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+        const center = { x: chart.width / 2 + chart.left, y: chart.height / 2 + chart.top };
+        const radius = 140;
+        const gap = 5;
+        const dist = 30;
+
+        walletPolar.attr("transform", `translate(${center.x}, ${center.y})`);
+        walletPolar.append("circle").attr("class", "separator").attr("r", radius + gap);
+
+        let [minAmount, maxAmount] = d3.extent(walletArr, d => d.amount);
+
+        let aScale = d3.scaleTime().domain([month1Start, month3End]).range([0, TAU]);
+        let rScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([0, radius]);
+        let steps = d3.ticks(minAmount, maxAmount, 5);//圆环数
+        console.log(`steps ${steps}`);
+
+        let walletGrid = walletPolar.append("g").attr("class", "grid");
+        for (let step of steps) {
+          walletGrid.append("circle").attr("class", "grid").attr("r", rScale(step));
+          walletGrid.append("text").attr("class", "grid-label").attr("transform", `rotate(90, ${-rScale(step)}, ${0})`).attr("x", -rScale(step)).attr("y", 0).text(step);
+        }
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([10, 10])
+                .html(d => `<span>amount: ${d.amount}</span><br>
+                            <span>created at: ${fmtymdhms(d.opTime)}</span><br>
+                            <span>unit: ${d.unit}</span>`);
+
+        let walletMap = new Map();
+        for (let w of walletArr) {
+          let arr = walletMap.get(w.unit);
+          if (arr) {
+            arr.push(w);
+            walletMap.set(w.unit, arr);
+          } else {
+            walletMap.set(w.unit, [w]);
+          }
+        }
+
+        let pathFun = d3.lineRadial()
+                .curve(d3.curveLinear)
+                .angle(d => aScale(d.opTime))
+                .radius(d => rScale(d.amount));
+    walletMap.forEach((walletArr, _) => {
+      if (walletArr.length > 1) {
+        walletPolar.append("path")
+                .datum(walletArr)
+                .attr("d", pathFun);
+      }
+        walletPolar.append("g")
+                .attr("class", "dots")
+                .call(pointTip)
+                .selectAll("dot")
+                .data(walletArr)
+                .enter()
+                  .append("circle")
+                  .attr("class", "dot")
+                  .attr("fill", /*d => cScale(d.unit)*/"none")
+                  .attr("stroke", d => cScale(d.unit))
+                  .attr("cx", d => d3.pointRadial(aScale(d.opTime), rScale(d.amount))[0])
+                  .attr("cy", d => d3.pointRadial(aScale(d.opTime), rScale(d.amount))[1])
+                  .attr("r", 3)
+                  .on("mouseover", pointTip.show)
+                  .on("mouseout", pointTip.hide);
+    });
+
+        function plotPolarLegend() {
+          const offset2 = 36;
+          const size = 10;
+          const head = 20;
+          const step = 28;
+
+          for (let [i, unit] of cScale.domain().entries()) {
+            let legend = walletPolar.append("g").attr("class", "legend").attr("transform", `translate(${center.x - chart.right + offset2}, ${head + step * i})`);
+            legend.append("rect").attr("x", 0).attr("y", 0).attr("width", size).attr("height", size).attr("fill", cScale(unit));
+            legend.append("text").attr("x", -6).attr("y", 20).text(unit);
+          }
+        }
+        plotPolarLegend();
+      }
+
+      function plotPolar2(otcArr) {
+        const width = 1380;
+        const height = 940;
+        const chart = { top: 16, right: 68, bottom: 18, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+        const center = { x: chart.width / 2 + chart.left, y: chart.height / 2 + chart.top };
+        const radius1 = 150;
+        const radius2 = 280;
+        const gap = 5;
+        const dist = 20;
+
+        otcPolar.attr("transform", `translate(${center.x}, ${center.y})`);
+        otcPolar.append("circle").attr("class", "separator").attr("r", radius2 + gap);
+
+        let [minMoney, maxMoney] = d3.extent(otcArr, d => d.money);
+
+        let aScale = d3.scaleTime().domain([month1Start, month3End]).range([0, TAU]);
+        let rScale = d3.scaleLinear().domain([minMoney, maxMoney]).range([radius1, radius2]);
+        let steps = d3.ticks(minMoney, maxMoney, 6);
+        console.log(`steps ${steps}`);
+
+        let otcGrid = otcPolar.append("g").attr("class", "grid");
+        for (let step of steps) {
+          otcGrid.append("circle").attr("class", "grid").attr("r", rScale(step));
+          otcGrid.append("text").attr("class", "grid-label").attr("transform", `rotate(90, ${-rScale(step)}, ${0})`).attr("x", -rScale(step)).attr("y", 0).text(step);
+        }
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([-10, 5])
+                .html(d => `<span>money: ${d.money}</span><br>
+                            <span>created at: ${fmtymdhms(d.createTime)}</span><br>
+                            <span>released at: ${fmtymdhms(d.releaseTime)}</span><br>
+                            <span>unit: ${d.unit}</span>`);
+
+        otcPolar.append("g")
+                .attr("class", "secs")
+                .call(pointTip)
+                .selectAll("sec")
+                .data(otcArr)
+                .enter()
+                  .append("path")
+                  .attr("class", "sec")
+                  .attr("fill", d => cScale(d.unit))
+                  .attr("d", d => d3.arc()
+                          .innerRadius(radius1)
+                          .outerRadius(rScale(d.money))
+                          .startAngle(aScale(d.createTime))
+                          .endAngle(aScale(d.releaseTime))() )
+                  .on("mouseover", pointTip.show)
+                  .on("mouseout", pointTip.hide);
+      }
+
+      function plotPolar3(loginArr) {
+        const width = 1380;
+        const height = 940;
+        const chart = { top: 16, right: 68, bottom: 18, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+        const center = { x: chart.width / 2 + chart.left, y: chart.height / 2 + chart.top };
+        const radius = 290;
+        const gap = 5;
+
+        loginPolar.attr("transform", `translate(${center.x}, ${center.y})`);
+        loginPolar.append("circle").attr("class", "separator").attr("r", radius + gap);
+
+        let aScale = d3.scaleTime().domain([month1Start, month3End]).range([0, TAU]);
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([-10, 5])
+                .html(d => `<span>login at: ${fmtymdhms(d.loginTime)}</span>`);
+
+        loginPolar.append("g")
+                .call(pointTip)
+                .attr("class", "dots")
+                .call(pointTip)
+                .selectAll("dot")
+                .data(loginArr)
+                .enter()
+                  .append("circle")
+                  .attr("class", "dot")
+                  .attr("cx", d => d3.pointRadial(aScale(d.loginTime), radius)[0])
+                  .attr("cy", d => d3.pointRadial(aScale(d.loginTime), radius)[1])
+                  .attr("r", 3)
+                  .on("mouseover", pointTip.show)
+                  .on("mouseout", pointTip.hide);
+      }
+
+      function plotPolar4(xchgArr) {
+        const width = 1380;
+        const height = 940;
+        const chart = { top: 16, right: 68, bottom: 18, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+        const center = { x: chart.width / 2 + chart.left, y: chart.height / 2 + chart.top };
+        const radius1 = 300;
+        const radius2 = 440;
+        const gap = 5;
+        const thick = 0.5;
+        const dist = 20;
+
+        xchgPolar.attr("transform", `translate(${center.x}, ${center.y})`);
+        xchgPolar.append("circle").attr("class", "separator").attr("r", radius2 + gap);
+
+        let [minAmount, maxAmount] = d3.extent(xchgArr, d => d.amount);
+
+        let aScale = d3.scaleTime().domain([month1Start, month3End]).range([0, TAU]);
+        let rScale = d3.scaleLinear().domain([minAmount, maxAmount]).range([radius1, radius2]);
+        let steps = d3.ticks(minAmount, maxAmount, 6);
+        console.log(`steps ${steps}`);
+
+        let xchgGrid = xchgPolar.append("g").attr("class", "grid");
+        for (let step of steps) {
+          xchgGrid.append("circle").attr("class", "grid").attr("r", rScale(step));
+          xchgGrid.append("text").attr("class", "grid-label").attr("transform", `rotate(90, ${-rScale(step)}, ${0})`).attr("x", -rScale(step)).attr("y", 0).text(step);
+        }
+
+        let pointTip = d3.tip()
+                .direction('e')
+                .attr("class", "tip")
+                .offset([-10, 5])
+                .html(d => `<span>amount: ${d.amount}</span><br>
+                            <span>created at: ${fmtymdhms(d.time)}</span><br>
+                            <span>completed at: ${fmtymdhms(d.completedTime)}</span><br>
+                            <span>base symbol: ${d.baseSymbol}</span>`);
+
+        xchgPolar.append("g")
+                .attr("class", "secs")
+                .call(pointTip)
+                .selectAll("sec")
+                .data(xchgArr)
+                .enter()
+                  .append("path")
+                  .attr("class", "sec")
+                  .attr("fill", d => cScale(d.baseSymbol))
+                  .attr("d", d => d3.arc()
+                          .innerRadius(rScale(d.amount) - thick)
+                          .outerRadius(rScale(d.amount) + thick)
+                          .startAngle(aScale(d.time))
+                          .endAngle(aScale(d.completedTime == null ? maxTime : d.completedTime))() )
+                  .on("mouseover", pointTip.show)
+                  .on("mouseout", pointTip.hide);
+      }
+
+      function plotPolar5() {
+        const width = 1380;
+        const height = 940;
+        const chart = { top: 16, right: 68, bottom: 18, left: 68 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+        const center = { x: chart.width / 2 + chart.left, y: chart.height / 2 + chart.top };
+        const radius = 440;
+        const thick = 36;
+
+        labelPolar.attr("transform", `translate(${center.x}, ${center.y})`);
+
+        let labels = [
+          { label: "Jan", start: month1Start, end: month1End }, 
+          { label: "Feb", start: month2Start, end: month2End }, 
+          { label: "Mar", start: month3Start, end: month3End }
+        ];
+
+        let aScale = d3.scaleTime().domain([month1Start, month3End]).range([0, TAU]);
+
+        labels.forEach(e => 
+                e.pathFun = d3.arc()
+                        .innerRadius(radius)
+                        .outerRadius(radius + thick)
+                        .startAngle(aScale(e.start))
+                        .endAngle(aScale(e.end)));
+
+        labelPolar.append("g")
+                .attr("class", "secs")
+                .selectAll("sec")
+                .data(labels)
+                .enter()
+                  .append("path")
+                  .attr("class", "sec")
+                  .attr("fill", "#BF4545")
+                  .attr("d", d => {
+                    let c = d.pathFun.centroid();
+                    labelPolar.append("text").attr("class", "label").attr("x", c[0]).attr("y", c[1]).text(d.label);
+                    return d.pathFun();
+                  });
+      }
+
+
+      const heatmap = d3.select("#heatmap");
+      const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+      const zRand = () => Math.random() * 2 - 1;
+      const colorScale = z => d3.interpolateRdBu((-z + 1) / 2);
+
+      function plotHeatmap(id) {
+        const width = 1380;
+        const height = 230;
+        const chart = { top: 62, right: 68, bottom: 18, left: 86 };
+        chart.width = width - chart.left - chart.right;
+        chart.height = height - chart.top - chart.bottom;
+
+        const start = Math.floor(minTime.getTime() / MS_PER_DAY);
+        const end = Math.floor(maxTime / MS_PER_DAY);
+        const days = d3.range(start, end + 1);
+        const xScale = d3.scaleBand().padding(0.02).domain(days).range([0, chart.width]);
+
+        const titles = ["Exchange Order", "OTC Order", "Deposit", "Wallet History", "Login History", "Advertise", "Lock Coin Detail"];
+        const yScale = d3.scaleBand().padding(0.02).domain(titles).range([0, chart.height]);
+
+        let data = [];
+        for (let title of titles) {
+          days.forEach(day => data.push({ title: title, day: day, z: zRand() }));
+        }
+
+        heatmap.append("g")
+                .attr("class", "x axis")
+                .attr("transform", `translate(${chart.left}, ${height - chart.bottom})`)
+                .call(d3.axisBottom(xScale).tickFormat(d => new Date(d * MS_PER_DAY).getDate()));
+        heatmap.append("g")
+                .attr("class", "y axis")
+                .attr("transform",  `translate(${chart.left}, ${chart.top})`)
+                .call(d3.axisLeft(yScale));
+        heatmap.append("g")
+                .attr("class", "cells")
+                .attr("transform",  `translate(${chart.left}, ${chart.top})`)
+                .selectAll(".cell")
+                .data(data)
+                .enter()
+                  .append("rect")
+                  .attr("x", d => xScale(d.day))
+                  .attr("y", d => yScale(d.title))
+                  .attr("width", xScale.bandwidth())
+                  .attr("height", yScale.bandwidth())
+                  .attr("fill", d => colorScale(d.z));
+
+        plotHeatmapLegend();
+      }
+
+      function plotHeatmapLegend() {
+        let explanation = "Color Coding of Different Anomaly Measurements";
+        let legend1 = "outlinerness";
+        let legend2 = "anomaly score";
+        let legend3 = "z-score";
+
+        let xLevels = [-1.0, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0];
+        let xScale = d3.scaleBand().padding(0).domain(xLevels).range([0, 220]);
+        let legend = heatmap.append("g")
+                .attr("class", "legend")
+                .attr("transform", `translate(440, ${26})`);
+        legend.selectAll(".cell")
+                .data(xLevels)
+                .enter()
+                  .append("rect")
+                  .attr("class", "cell")
+                  .attr("x", d => xScale(d))
+                  .attr("width", xScale.bandwidth())
+                  .attr("height", xScale.bandwidth())
+                  .attr("fill", d => colorScale(d));
+        legend.append("text").text(explanation).attr("x", -18).attr("y", -16);
+        legend.append("text").text(legend1).attr("x", 20).attr("y", -6);
+        legend.append("text").text(legend2).attr("x", 136).attr("y", -6);
+        legend.append("text").text(legend3).attr("x", 92).attr("y", 32);
+        legend.append("text").text("-1").attr("class", "symbol").attr("x", 5).attr("y", 13.8);
+        legend.append("text").text("0").attr("x", 106).attr("y", 13.8);
+        legend.append("text").text("+1").attr("class", "symbol").attr("x", 203).attr("y", 13.8);
+      }
+    </script>
+  </body>
+</html>
